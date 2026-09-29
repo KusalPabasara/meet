@@ -148,7 +148,7 @@ const RecordingDownload = () => {
             </Text>
             <LinkButton
               href={mediaUrl(data.key)}
-              download={`${data.room.name}-${formatDate(data.created_at)}`}
+              download={`${data.room.name}-${formatDate(data.created_at)}.${data.key.split('.').pop()}`}
             >
               {t('success.button')}
             </LinkButton>
