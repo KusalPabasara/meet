@@ -6,6 +6,8 @@ import json
 from logging import getLogger
 from typing import Dict, Optional
 
+from django.db import transaction
+
 from asgiref.sync import async_to_sync
 from livekit.api import (
     DeleteRoomRequest,
@@ -15,6 +17,7 @@ from livekit.api import (
 )
 
 from core import utils
+from core.models import Room
 
 logger = getLogger(__name__)
 
@@ -114,6 +117,27 @@ class RoomManagement:
             raise RoomManagementException("Could not delete room") from e
         finally:
             await lkapi.aclose()
+
+    @classmethod
+    def soft_delete(cls, room: Room):
+        """Soft delete a room and close its LiveKit room.
+
+        Raises:
+            RoomManagementException: the LiveKit room could not be closed.
+        """
+
+        try:
+            with transaction.atomic():
+                room.soft_delete()
+                try:
+                    cls.delete_room(str(room.id))
+                except RoomNotFoundException:
+                    logger.info(
+                        "Room %s is not live in LiveKit, nothing to close", room.id
+                    )
+        except RoomManagementException:
+            room.deleted_at = None
+            raise
 
     @classmethod
     def sync_room_metadata(cls, room):

@@ -74,7 +74,9 @@ export const Lobby = ({
   const { openLoginHint } = useLoginHint()
 
   const handleSubmit = async () => {
-    const { data } = await refetchRoom()
+    const { data, error } = await refetchRoom()
+
+    if (error?.statusCode == 410) return
 
     if (!data?.livekit) {
       // Display a message to inform the user that by logging in, they won't have to wait for room entry approval.
@@ -86,6 +88,22 @@ export const Lobby = ({
     }
 
     enterRoom()
+  }
+
+  if (
+    status === ApiLobbyStatus.DELETED ||
+    (isError && error?.statusCode == 410)
+  ) {
+    return (
+      <VStack alignItems="center" textAlign="center">
+        <H lvl={1} margin={false} centered>
+          {t('deleted.title')}
+        </H>
+        <Text as="p" variant="note">
+          {t('deleted.body')}
+        </Text>
+      </VStack>
+    )
   }
 
   switch (status) {

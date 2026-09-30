@@ -12,6 +12,11 @@ and this project adheres to
 
 - 🔒(backend) throttle meeting link generation
 - 🔒️(backend) add a daily cap on room creation
+- ✨(backend) add room soft-deletion to the external API
+
+### Changed
+
+- ♻️(backend) soft delete rooms instead of hard-delete
 
 ### Fixed
 
@@ -34,6 +39,7 @@ and this project adheres to
 - 🔧(compose) replace MinIO by Garage for local development
 - 🔧(helm) point media services to Garage by default
 
+
 ### Fixed
 
 - 🔒️(backend) fix critical and high CVEs in PyJWT
@@ -53,6 +59,7 @@ and this project adheres to
 - ✨(backend) make the LiveKit default video codec configurable
 - 🔧(dev) add support for Bureautix workstations
 - ✨(frontend) add screen share zoom controls #1498
+- 🔨(makefile) add targets to list and download files stored in Garage
 
 ### Changed
 
@@ -71,6 +78,9 @@ and this project adheres to
 - ⬆️(addons) upgrade i18next from 26.4.0 to 26.4.2
 - 🔖(helm) release chart 0.0.28
 - ♻️(backend) decouple recording event handling from LiveKit egress statuses
+- ♻️(agents) replace the minio client by boto3
+- 🔧(compose) replace MinIO by Garage for local development
+- 🔧(helm) point media services to Garage by default
 
 ### Fixed
 
