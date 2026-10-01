@@ -43,7 +43,7 @@ COPY ./src/mail /mail/app
 
 WORKDIR /mail/app
 
-RUN npm ci && npm run build
+RUN npm ci --ignore-scripts && npm run build
 
 
 # ---- static link collector ----
